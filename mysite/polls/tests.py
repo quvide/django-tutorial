@@ -6,6 +6,7 @@ from django.urls import reverse
 
 from .models import Question
 
+
 class QuestionModelTests(TestCase):
 
     def test_was_published_recently_with_future_question(self):
@@ -17,14 +18,12 @@ class QuestionModelTests(TestCase):
         future_question = Question(pub_date=time)
         self.assertIs(future_question.was_published_recently(), False)
 
+
 def create_question(question_text, days):
-    """
-    Helper function to create a question.
-    (use negative days for the past)
-    """
     time = timezone.now() + datetime.timedelta(days=days)
-    return Question.objects.create(question_text=
-    question_text, pub_date=time)
+    return Question.objects.create(
+        question_text=question_text, pub_date=time)
+
 
 class QuestionIndexViewTests(TestCase):
     def test_no_questions(self):
@@ -48,10 +47,12 @@ class QuestionIndexViewTests(TestCase):
         self.assertContains(response, "No polls are available.")
         self.assertQuerysetEqual(response.context["latest_question_list"], [])
 
+
 class QuetionDetailViewTests(TestCase):
     def test_future_question(self):
         """Ensure future questions are hidden from view"""
-        future_question = create_question(question_text="Future question", days=5)
+        future_question = create_question(question_text="Future question",
+                                          days=5)
         url = reverse("polls:detail", args=(future_question.id,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
