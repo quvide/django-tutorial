@@ -26,7 +26,6 @@ class Question(models.Model):
     pub_date = models.DateTimeField("date published")
 
     def __str__(self):
-        """Return question text for str()."""
         return self.question_text
 
     def was_published_recently(self):
@@ -54,5 +53,4 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
 
     def __str__(self):
-        """Return choice text for str()."""
         return self.choice_text

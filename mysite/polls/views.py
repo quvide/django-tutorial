@@ -1,5 +1,3 @@
-"""Django views."""
-
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -34,7 +32,7 @@ class DetailView(generic.DetailView):
 
 
 class ResultsView(generic.DetailView):
-    """Show amount of votes for different choices."""
+    """Show vote results."""
 
     model = Question
     template_name = "polls/results.html"
