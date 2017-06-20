@@ -1,6 +1,6 @@
 from rest_framework import serializers, viewsets, permissions
 
-from polls.models import Question, Choice
+from polls.models import Question
 
 
 class QuestionSerializer(serializers.ModelSerializer):

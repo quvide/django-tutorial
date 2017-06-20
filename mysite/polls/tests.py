@@ -15,14 +15,14 @@ def create_question(question_text, days):
     return Question.objects.create(
         question_text=question_text, pub_date=time)
 
+
 class TestQuestionModel:
 
     def test_was_published_recently_with_future_question(self):
-        """Ensure questions in the future are not 'recently published'"""
+        """Ensure questions in the future are not 'recently published'."""
         time = timezone.now() + datetime.timedelta(days=1)
         future_question = Question(pub_date=time)
         assert future_question.was_published_recently() is False
-
 
 
 class TestQuestionIndexView:
