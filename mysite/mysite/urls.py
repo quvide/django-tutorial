@@ -10,6 +10,7 @@ router.register(r"question", polls.QuestionViewSet)
 
 urlpatterns = [
     url(r"^api/", include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls')),
     url(r"^api-swagger/", get_swagger_view(title="Polls API")),
     url(r"^polls/", include("polls.urls")),
     url(r'^admin/', admin.site.urls)
