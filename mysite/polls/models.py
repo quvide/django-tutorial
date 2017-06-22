@@ -10,20 +10,12 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 
 class Question(models.Model):
-    """
-    Question model.
-
-    Fields:
-      question_text: Question title
-      pub_date: Time published
-      (choices as foreign keys)
-    """
-
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField("date published")
+    question_text = models.CharField(_("Question text"), max_length=200)
+    pub_date = models.DateTimeField(_("Date published"))
 
     def __str__(self):
         return self.question_text
@@ -35,7 +27,11 @@ class Question(models.Model):
 
     was_published_recently.admin_order_field = "pub_date"
     was_published_recently.boolean = True
-    was_published_recently.short_description = "Published recently?"
+    was_published_recently.short_description = _("Published recently?")
+
+    class Meta:
+        verbose_name = _("Question")
+        verbose_name_plural = _("Questions")
 
 
 class Choice(models.Model):
@@ -45,12 +41,17 @@ class Choice(models.Model):
     Fields:
       question: Foreign key to Question
       choice_text: Choice text
+      votes: Amount of votes
     """
 
     question = models.ForeignKey(Question, related_name="choices",
                                  on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
+    choice_text = models.CharField(_("Choice text"), max_length=200)
+    votes = models.IntegerField(_("Votes"), default=0)
 
     def __str__(self):
         return self.choice_text
+
+    class Meta:
+        verbose_name = _("Choice")
+        verbose_name_plural = _("Choices")

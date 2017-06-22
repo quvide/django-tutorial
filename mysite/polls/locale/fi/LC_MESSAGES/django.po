@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: models.py:17
+msgid "Question text"
+msgstr "Kysymyksen teksti"
+
+#: models.py:18
+msgid "Date published"
+msgstr "Julkaisupäivä"
+
+#: models.py:30
+msgid "Published recently?"
+msgstr "Tuore julkaisu"
+
+#: models.py:33
+msgid "Question"
+msgstr "Kysymys"
+
+#: models.py:34
+msgid "Questions"
+msgstr "Kysymykset"
+
+#: models.py:49
+msgid "Choice text"
+msgstr "Vaihtoehdon teksti"
+
+#: models.py:50
+msgid "Votes"
+msgstr "Äänet"
+
+#: models.py:56
+msgid "Choice"
+msgstr "Vaihtoehto"
+
+#: models.py:57
+msgid "Choices"
+msgstr "Vaihtoehdot"

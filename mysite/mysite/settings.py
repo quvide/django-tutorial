@@ -19,8 +19,25 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "f0&d-l)s@^v*#s=nkofolnb!m6x#1*gl+iq-gkpt92-$s)*pvj"
+if "SECRET_KEY" not in locals():
+    secret_file = os.path.join(BASE_DIR, ".django_secret")
+    try:
+        with open(secret_file) as f:
+            SECRET_KEY = f.read().strip()
+    except IOError:
+        import random
+        system_random = random.SystemRandom()
+        try:
+            SECRET_KEY = "".join(
+                [system_random.choice("abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)") for i in range(64)]
+            )
+            with open(secret_file, "w") as f:
+                import os
+                os.fchmod(f.fileno(), 0o600)
+                f.write(SECRET_KEY)
+                f.close()
+        except IOError:
+            Exception("Please create a %s file with random characters to generate your secret key!" % secret_file)
 
 # SECURITY WARNING: don"t run with debug turned on in production!
 DEBUG = True
@@ -31,25 +48,28 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "rest_framework_swagger",
-    "rest_framework",
-    "polls.apps.PollsConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    "rest_framework_swagger",
+    "rest_framework",
+
+    "polls.apps.PollsConfig"
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware"
 ]
 
 ROOT_URLCONF = "mysite.urls"
@@ -77,13 +97,13 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django-tutorial',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "django-tutorial",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 
@@ -112,6 +132,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
+LANGUAGES = [
+    ("en", "English"),
+    ("fi", "Suomi")
+]
+
 TIME_ZONE = "UTC"
 
 USE_I18N = True
@@ -125,3 +150,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = "/static/"
+
+
+local_settings_path = os.path.join(BASE_DIR, "local_settings.py")
+if os.path.exists(local_settings_path):
+    import sys
+    import types
+    module_name = "%s.local_settings" % ROOT_URLCONF.split('.')[0]
+    module = types.ModuleType(module_name)
+    module.__file__ = local_settings_path
+    sys.modules[module_name] = module
+    with open(local_settings_path, "rb") as f:
+        exec(f.read())
