@@ -11,6 +11,7 @@ coreschema==0.0.4         # via coreapi
 django-rest-swagger==2.1.2
 django==1.11.2
 djangorestframework==3.6.3
+freezegun==0.3.9
 idna==2.5                 # via requests
 itypes==1.1.0             # via coreapi
 jinja2==2.9.6             # via coreschema
@@ -20,8 +21,10 @@ psycopg2==2.7.1
 py==1.4.34                # via pytest
 pytest-django==3.1.2
 pytest==3.1.2             # via pytest-django
+python-dateutil==2.6.0    # via freezegun
 pytz==2017.2              # via django
 requests==2.18.1          # via coreapi
 simplejson==3.11.1        # via django-rest-swagger
+six==1.10.0               # via freezegun, python-dateutil
 uritemplate==3.0.0        # via coreapi
 urllib3==1.21.1           # via requests
